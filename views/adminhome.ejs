@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Home</title>
+
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+
+  <!------form validate----->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+  integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+  integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    .div1 {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px;
+    }
+    .div2 {
+      display: flex;
+      margin-left: 10px;
+    }
+    #btn-search {
+      margin-left: 5px;
+    }
+    #table-head {
+      margin-top: 5px;
+      margin: 10px;
+      margin-right: 10px;
+    }
+    .error{
+      color: rgb(255, 0, 0);
+    }
+  </style>
+
+</head>
+<body style="background-color: black">
+    <div class="div1">
+      <h3 style="color: rgb(255, 183, 0)">Admin Dashboard</h3>
+
+      <form class="d-flex" action="/admin/adminLogout" method="POST">
+        <button class="btn btn-danger" type="submit">Logout</button>
+    </form>
+      <!-- <button type="button" class="btn btn-danger">Logout</button> -->
+    </div>
+
+    <!-- Button trigger modal -->
+
+        <!--Add user Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <% if (addError) { %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%; margin: 10px auto; text-align: center;">
+    <%= addError %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% } %>
+
+                  <form id="adduser" action="/admin/adminAdd" method="post">
+                      <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Add User</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group">
+                              <label>Username</label>
+                              <input type="text" placeholder="Username*" class="form-control" name="addname" id="name">
+                              <p id="userId"></p>
+                          </div>
+                          <div class="form-group">
+                              <label>Email</label>
+                              <input type="text" placeholder="Email*" class="form-control" name="addemail" id="name">
+                              <p id="userId"></p>
+                          </div>
+                          <div class="form-group">
+                              <label>Password</label>
+                              <input type="password" placeholder="Password*(At least 6 characters long)"
+                                  name="addpassword" id="password" class="form-control" />
+                          </div>
+                      </div>
+                      <div class="modal-footer">                          
+                          
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                          
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <h1 style="color:rgb(255, 255, 255);margin-left: 10px;">Manage Users</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-bottom: 5px;margin-left: 15px;">
+            Add User
+        </button>
+        <br>
+
+        <!----search----->
+
+    <div class="div2">
+
+      <form action="/admin/adminSearch" method="post" class="d-flex">
+      <input
+        type="text"
+        placeholder="Search"
+        id="search"
+        name="search"
+        style="width: 70%; border: 1px solid white; border-radius: 3px"
+      />
+
+      <button type="submit" id="btn-search" class="btn btn-success">
+        Search
+      </button>
+    </form>
+
+    </div>
+
+    <table
+      class="table table-dark table-hover"
+      id="table-head">
+      
+      <thead>
+        <tr>
+          <th scope="col">Name</th>          
+          <th scope="col">Email</th>
+          <th scope="col">Action</th>
+        </tr>
+save changes
+      </thead>
+      
+      <% for(let i=0;i<userdetails.length;i++){ %>
+        <tbody>
+            <tr>
+                <td>
+                    <%= userdetails[i].username %>
+                </td>
+                <td>
+                    <%= userdetails[i].email %>
+                </td>
+                <td style="display: flex; flex-direction: row;">
+                     
+                     <a href="/admin/adminEdit/<%= userdetails[i]._id %> "><button id="edit<%i%>" type="button" class="btn btn-info">
+                        Edit
+                    </button></a>
+
+                    
+
+                    <form action="/admin/adminDelete/<%= userdetails[i]._id %>?_method=DELETE" method="post">
+                      <button type="submit" class="btn btn-danger">
+                        delete
+                      </button>
+                    </form>
+                </td>
+
+            </tr>
+        </tbody>
+        <% } %> 
+</table>
+
+
+  
+    <script>
+  // Prevent going back to this page from cache after logout
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      // Force a full reload from the server instead of showing a cached version
+      window.location.reload();
+    }
+  });
+</script>
+<% if (addError) { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const addUserModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    addUserModal.show(); // reopen modal automatically
+  });
+</script>
+<% } %>
+
+  </body>
+</html>
