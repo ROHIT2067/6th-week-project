@@ -14,7 +14,7 @@ const getLogin=async (req,res)=>{
   res.redirect('/home')
 }
 
-
+console.log("wfuwvbef")
 const postLogin=(req,res)=>{
   try{
     if(Admin===req.body.adminUsr && AdminPass===req.body.adminPass){
